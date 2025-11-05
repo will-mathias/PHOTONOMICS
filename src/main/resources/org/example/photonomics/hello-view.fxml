@@ -8,12 +8,12 @@
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
-   <HBox prefHeight="100.0" prefWidth="200.0">
+   <HBox prefHeight="59.0" prefWidth="360.0">
       <children>
          <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
             <children>
                <Label alignment="CENTER" prefHeight="40.0" prefWidth="100.0" text="Monthly Energy Usage (kWh)" textAlignment="CENTER" wrapText="true" />
-               <TextArea prefHeight="0.0" prefWidth="100.0" promptText="e.g 1000W" />
+               <TextField fx:id="energyUsageField1" layoutX="10.0" layoutY="50.0" />
             </children>
             <HBox.margin>
                <Insets right="10.0" />
@@ -22,7 +22,7 @@
          <VBox prefHeight="200.0" prefWidth="100.0">
             <children>
                <Label alignment="CENTER" prefHeight="41.0" prefWidth="100.0" text="Household Income (USD)" textAlignment="CENTER" wrapText="true" />
-               <TextArea prefHeight="30.0" prefWidth="100.0" promptText="e.g 1000$" />
+               <TextField fx:id="HouseholdIncomeField" />
             </children>
             <HBox.margin>
                <Insets right="10.0" />
@@ -31,7 +31,7 @@
          <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
             <children>
                <Label alignment="CENTER" prefHeight="44.0" prefWidth="100.0" text="Region" textAlignment="CENTER" />
-               <ChoiceBox prefWidth="150.0" />
+               <ChoiceBox fx:id="regionDropDown" prefWidth="150.0" />
             </children>
          </VBox>
       </children>
