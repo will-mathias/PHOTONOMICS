@@ -49,24 +49,20 @@ public class HelloController {
 
     @FXML
     protected void onCalculateButtonClick() {
-        String selectedRegionName = regionDropDown.getValue();
-        Region selectedRegion = findRegionByName(selectedRegionName);
-
-        if (selectedRegion != null) {
-            System.out.println("Calculating for region: " + selectedRegion.getRegionName());
-        }
-        else {
-            System.out.println("No region selected or region not found.");
-        }
+        Region selectedRegion = findRegionByName(regionDropDown.getValue());
+        double householdIncome = Double.parseDouble(HouseholdIncomeField.getText());
+        double energyUsage = Double.parseDouble(energyUsageField.getText());
     }
 
     // Helper method to find a Region by its name
     private Region findRegionByName(String selectedName) {
         if (selectedName == null) {
+            System.out.println("No region selected or region not found.");
             return null;
         }
         for (Region region : regions) {
             if (region.getRegionName().equals(selectedName)) {
+                System.out.println("Calculating for region: " + selectedName);
                 return region;
             }
         }
