@@ -1,12 +1,12 @@
 package org.example.photonomics;
 
 public class Region {
-    private String regionName;
-    private double peakSunHours;
-    private double HardwareCostPerWatt;
-    private double laborCostPerWatt;
-    private double avgPermitCost;
-    private double utilityRatePerKWh;
+    private final String regionName;
+    private final double peakSunHours;
+    private final double HardwareCostPerWatt;
+    private final double laborCostPerWatt;
+    private final double avgPermitCost;
+    private final double utilityRatePerKWh;
 
     public Region(String regionName, double peakSunHours, double hardwareCostPerWatt, double laborCostPerWatt, double avgPermitCost, double utilityRatePerKWh) {
         this.regionName = regionName;
