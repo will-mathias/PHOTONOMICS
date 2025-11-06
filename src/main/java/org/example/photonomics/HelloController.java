@@ -49,10 +49,11 @@ public class HelloController {
 
     @FXML
     protected void onCalculateButtonClick() {
-        String selectedRegion = regionDropDown.getValue();
-        Region region = findRegionByName(selectedRegion);
-        if (region != null) {
-            System.out.println("Calculating for region: " + region.getRegionName());
+        String selectedRegionName = regionDropDown.getValue();
+        Region selectedRegion = findRegionByName(selectedRegionName);
+
+        if (selectedRegion != null) {
+            System.out.println("Calculating for region: " + selectedRegion.getRegionName());
         }
         else {
             System.out.println("No region selected or region not found.");
@@ -60,12 +61,12 @@ public class HelloController {
     }
 
     // Helper method to find a Region by its name
-    private Region findRegionByName(String name) {
-        if (name == null) {
+    private Region findRegionByName(String selectedName) {
+        if (selectedName == null) {
             return null;
         }
         for (Region region : regions) {
-            if (region.getRegionName().equals(name)) {
+            if (region.getRegionName().equals(selectedName)) {
                 return region;
             }
         }
