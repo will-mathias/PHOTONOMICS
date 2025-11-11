@@ -1,18 +1,19 @@
 package org.example.photonomics;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.VBox;
 
-public class HelloController {
+public class CalculatorController {
     @FXML
     private TextField energyUsageField;
     @FXML
     private TextField HouseholdIncomeField;
     @FXML
     private ChoiceBox<String> regionDropDown;
+    @FXML
+    private VBox outputBox;
 
     private Region[] regions;
 
@@ -63,21 +64,33 @@ public class HelloController {
     }
 
     private void performCalculations() {
+        // Validate inputs
+        boolean inputValid = true;
         try {
             double householdIncome = Double.parseDouble(HouseholdIncomeField.getText());
         } catch (NumberFormatException e) {
+            inputValid = false;
             errorDialogue("Input Error", "Invalid Household Income Input", "Please enter valid numeric values for household income.");
         }
         try {
             double energyUsage = Double.parseDouble(energyUsageField.getText());
         } catch (NumberFormatException e) {
+            inputValid = false;
             errorDialogue("Input Error", "Invalid Energy Usage Input", "Please enter valid numeric values for energy usage.");
         }
         try {
             Region selectedRegion = findRegionByName(regionDropDown.getValue());
         } catch (IllegalArgumentException e) {
+            inputValid = false;
             errorDialogue("Selection Error", "No Region Selected", "Please select a region from the dropdown.");
         }
+        if (!inputValid) {
+            return;
+        }
+        // Perform calculations
+
+        // Display results
+        outputResults(5000, 100, 15);
     }
 
     // Helper method to find a Region by its name
@@ -93,5 +106,14 @@ public class HelloController {
             }
         }
         throw new IllegalArgumentException();
+    }
+
+    private void outputResults(double totalCost, double monthlySavings, double paybackYears) {
+        // Clear previous results
+        outputBox.getChildren().clear();
+        outputBox.getChildren().add(new Label("Total Cost: $" + totalCost));
+        outputBox.getChildren().add(new Label("Monthly Savings: $" + monthlySavings));
+        outputBox.getChildren().add(new Label("Payback Period: " + paybackYears + " years"));
+
     }
 }
