@@ -3,6 +3,8 @@ package org.example.photonomics;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 public class HelloController {
     @FXML
@@ -49,16 +51,40 @@ public class HelloController {
 
     @FXML
     protected void onCalculateButtonClick() {
-        Region selectedRegion = findRegionByName(regionDropDown.getValue());
-        double householdIncome = Double.parseDouble(HouseholdIncomeField.getText());
-        double energyUsage = Double.parseDouble(energyUsageField.getText());
+        performCalculations();
+    }
+
+    private static void errorDialogue(String title, String header, String content) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
+    private void performCalculations() {
+        try {
+            double householdIncome = Double.parseDouble(HouseholdIncomeField.getText());
+        } catch (NumberFormatException e) {
+            errorDialogue("Input Error", "Invalid Household Income Input", "Please enter valid numeric values for household income.");
+        }
+        try {
+            double energyUsage = Double.parseDouble(energyUsageField.getText());
+        } catch (NumberFormatException e) {
+            errorDialogue("Input Error", "Invalid Energy Usage Input", "Please enter valid numeric values for energy usage.");
+        }
+        try {
+            Region selectedRegion = findRegionByName(regionDropDown.getValue());
+        } catch (IllegalArgumentException e) {
+            errorDialogue("Selection Error", "No Region Selected", "Please select a region from the dropdown.");
+        }
     }
 
     // Helper method to find a Region by its name
     private Region findRegionByName(String selectedName) {
         if (selectedName == null) {
             System.out.println("No region selected or region not found.");
-            return null;
+            throw new IllegalArgumentException();
         }
         for (Region region : regions) {
             if (region.getRegionName().equals(selectedName)) {
@@ -66,6 +92,6 @@ public class HelloController {
                 return region;
             }
         }
-        return null;
+        throw new IllegalArgumentException();
     }
 }
