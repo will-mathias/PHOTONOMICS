@@ -66,20 +66,23 @@ public class CalculatorController {
     private void performCalculations() {
         // Validate inputs
         boolean inputValid = true;
+        double householdIncome = 0;
+        double energyUsage = 0;
+        Region selectedRegion = null;
         try {
-            double householdIncome = Double.parseDouble(HouseholdIncomeField.getText());
+            householdIncome = Double.parseDouble(HouseholdIncomeField.getText());
         } catch (NumberFormatException e) {
             inputValid = false;
             errorDialogue("Input Error", "Invalid Household Income Input", "Please enter valid numeric values for household income.");
         }
         try {
-            double energyUsage = Double.parseDouble(energyUsageField.getText());
+            energyUsage = Double.parseDouble(energyUsageField.getText());
         } catch (NumberFormatException e) {
             inputValid = false;
             errorDialogue("Input Error", "Invalid Energy Usage Input", "Please enter valid numeric values for energy usage.");
         }
         try {
-            Region selectedRegion = findRegionByName(regionDropDown.getValue());
+            selectedRegion = findRegionByName(regionDropDown.getValue());
         } catch (IllegalArgumentException e) {
             inputValid = false;
             errorDialogue("Selection Error", "No Region Selected", "Please select a region from the dropdown.");
@@ -87,10 +90,21 @@ public class CalculatorController {
         if (!inputValid) {
             return;
         }
-        // Perform calculations
+        // Perform calculations for cost estimation
+        double peakSunHours = selectedRegion.getPeakSunHours();
+        double laborCostPerWatt = selectedRegion.getLaborCostPerWatt();
+        double hardwareCostPerWatt = selectedRegion.getHardwareCostPerWatt();
+        double avgPermitCost = selectedRegion.getAvgPermitCost();
+
+        double adjustedSystemSize = Math.ceil(energyUsage / peakSunHours);
+
+        double totalCost = ((adjustedSystemSize * 1000) * (laborCostPerWatt + hardwareCostPerWatt) + avgPermitCost);
+        double monthlySaving = energyUsage * selectedRegion.getUtilityRatePerKWh();
+        double payBackMonths = totalCost / monthlySaving;
+        double payBackYears = payBackMonths / 12;
 
         // Display results
-        outputResults(5000, 100, 15);
+        outputResults(totalCost, monthlySaving, payBackYears);
     }
 
     // Helper method to find a Region by its name
