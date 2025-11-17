@@ -1,0 +1,133 @@
+package org.example.photonomics;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.VBox;
+
+public class CalculatorController {
+    @FXML
+    private TextField energyUsageField;
+    @FXML
+    private TextField HouseholdIncomeField;
+    @FXML
+    private ChoiceBox<String> regionDropDown;
+    @FXML
+    private VBox outputBox;
+
+    private Region[] regions;
+
+    @FXML
+    void initialize() {
+        initRegions();
+        initDropdown();
+    }
+
+    // Initialize the regions with their respective data
+    private void initRegions() {
+        regions = new Region[] {
+            new Region("Bomi", 4.6, 1.80, 0.55, 250, 0.35),
+            new Region("Bong", 5.1, 1.60, 0.55, 220, 0.33),
+            new Region("Gbarpolu", 4.9, 1.75, 0.45, 180, 0.31),
+            new Region("Grand Bassa", 4.7, 1.55, 0.58, 280, 0.34),
+            new Region("Grand Cape Mount", 4.7, 1.65, 0.50, 230, 0.34),
+            new Region("Grand Gedeh", 5.2, 1.70, 0.45, 200, 0.32),
+            new Region("Grand Kru", 4.9, 1.80, 0.45, 180, 0.31),
+            new Region("Lofa", 5.0, 1.70, 0.50, 180, 0.31),
+            new Region("Margibi", 4.6, 1.55, 0.58, 300, 0.35),
+            new Region("Maryland", 5.0, 1.75, 0.45, 190, 0.31),
+            new Region("Montserrado", 4.5, 1.50, 0.60, 350, 0.35),
+            new Region("Nimba", 5.2, 1.65, 0.50, 200, 0.32),
+            new Region("Rivercess", 4.8, 1.70, 0.48, 190, 0.32),
+            new Region("River Gee", 5.1, 1.75, 0.45, 190, 0.31),
+            new Region("Sinoe", 4.9, 1.70, 0.48, 190, 0.32)
+        };
+    }
+
+    private void initDropdown() {
+        for (Region region : regions) {
+            regionDropDown.getItems().add(region.getRegionName());
+        }
+    }
+
+    @FXML
+    protected void onCalculateButtonClick() {
+        performCalculations();
+    }
+
+    private static void errorDialogue(String title, String header, String content) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
+    private void performCalculations() {
+        // Validate inputs
+        boolean inputValid = true;
+        double householdIncome = 0;
+        double energyUsage = 0;
+        Region selectedRegion = null;
+        try {
+            householdIncome = Double.parseDouble(HouseholdIncomeField.getText());
+        } catch (NumberFormatException e) {
+            inputValid = false;
+            errorDialogue("Input Error", "Invalid Household Income Input", "Please enter valid numeric values for household income.");
+        }
+        try {
+            energyUsage = Double.parseDouble(energyUsageField.getText());
+        } catch (NumberFormatException e) {
+            inputValid = false;
+            errorDialogue("Input Error", "Invalid Energy Usage Input", "Please enter valid numeric values for energy usage.");
+        }
+        try {
+            selectedRegion = findRegionByName(regionDropDown.getValue());
+        } catch (IllegalArgumentException e) {
+            inputValid = false;
+            errorDialogue("Selection Error", "No Region Selected", "Please select a region from the dropdown.");
+        }
+        if (!inputValid) {
+            return;
+        }
+        // Perform calculations for cost estimation
+        double peakSunHours = selectedRegion.getPeakSunHours();
+        double laborCostPerWatt = selectedRegion.getLaborCostPerWatt();
+        double hardwareCostPerWatt = selectedRegion.getHardwareCostPerWatt();
+        double avgPermitCost = selectedRegion.getAvgPermitCost();
+
+        double adjustedSystemSize = Math.ceil(energyUsage / peakSunHours);
+
+        double totalCost = ((adjustedSystemSize * 1000) * (laborCostPerWatt + hardwareCostPerWatt) + avgPermitCost);
+        double monthlySaving = energyUsage * selectedRegion.getUtilityRatePerKWh();
+        double payBackMonths = totalCost / monthlySaving;
+        double payBackYears = payBackMonths / 12;
+
+        // Display results
+        outputResults(totalCost, monthlySaving, payBackYears);
+    }
+
+    // Helper method to find a Region by its name
+    private Region findRegionByName(String selectedName) {
+        if (selectedName == null) {
+            System.out.println("No region selected or region not found.");
+            throw new IllegalArgumentException();
+        }
+        for (Region region : regions) {
+            if (region.getRegionName().equals(selectedName)) {
+                System.out.println("Calculating for region: " + selectedName);
+                return region;
+            }
+        }
+        throw new IllegalArgumentException();
+    }
+
+    private void outputResults(double totalCost, double monthlySavings, double paybackYears) {
+        // Clear previous results
+        outputBox.getChildren().clear();
+        outputBox.getChildren().add(new Label("Total Cost: $" + totalCost));
+        outputBox.getChildren().add(new Label("Monthly Savings: $" + monthlySavings));
+        outputBox.getChildren().add(new Label("Payback Period: " + paybackYears + " years"));
+
+    }
+}
