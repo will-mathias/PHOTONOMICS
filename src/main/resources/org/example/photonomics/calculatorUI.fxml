@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
-<?import javafx.scene.chart.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -9,7 +8,7 @@
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
-   <HBox prefHeight="59.0" prefWidth="360.0">
+   <HBox alignment="TOP_CENTER" prefHeight="59.0" prefWidth="360.0">
       <children>
          <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
             <children>
@@ -38,17 +37,5 @@
       </children>
    </HBox>
     <Button onAction="#onCalculateButtonClick" text="Calculate" />
-   <VBox fx:id="outputBox" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-      <children>
-         <LineChart>
-           <xAxis>
-             <CategoryAxis side="BOTTOM" />
-           </xAxis>
-           <yAxis>
-             <NumberAxis side="LEFT" />
-           </yAxis>
-         </LineChart>
-         <Label text="Label" />
-      </children>
-   </VBox>
+   <VBox fx:id="outputBox" alignment="TOP_CENTER" prefHeight="800.0" prefWidth="600.0" />
 </VBox>
