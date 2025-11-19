@@ -12,14 +12,18 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 
 public class CalculatorController {
-    // Loan constants
-    private static final double ANNUAL_INTEREST_RATE = 0.08; // 8%
-    private static final int LOAN_TERM_YEARS = 7;
+    // Default loan constants
+    private static final double DEFAULT_ANNUAL_INTEREST_RATE = 0.08; // 8%
+    private static final int DEFAULT_LOAN_TERM_YEARS = 7;
 
     @FXML
     private TextField energyUsageField;
     @FXML
     private TextField HouseholdIncomeField;
+    @FXML
+    private TextField loanTermField;
+    @FXML
+    private TextField interestRateField;
     @FXML
     private ChoiceBox<String> regionDropDown;
     @FXML
@@ -78,6 +82,8 @@ public class CalculatorController {
         boolean inputValid = true;
         double householdIncome = 0;
         double energyUsage = 0;
+        int loanTermYears = DEFAULT_LOAN_TERM_YEARS;
+        double annualInterestRate = DEFAULT_ANNUAL_INTEREST_RATE;
         Region selectedRegion = null;
 
         try {
@@ -100,6 +106,28 @@ public class CalculatorController {
             inputValid = false;
             errorDialogue("Input Error", "Invalid Energy Usage Input",
                     "Please enter a valid positive number for energy usage.");
+        }
+
+        try {
+            loanTermYears = Integer.parseInt(loanTermField.getText().trim());
+            if (loanTermYears <= 0 || loanTermYears > 30) {
+                throw new NumberFormatException("Loan term must be between 1 and 30 years");
+            }
+        } catch (NumberFormatException e) {
+            inputValid = false;
+            errorDialogue("Input Error", "Invalid Loan Term",
+                    "Please enter a valid loan term between 1 and 30 years.");
+        }
+
+        try {
+            annualInterestRate = Double.parseDouble(interestRateField.getText().trim()) / 100.0;
+            if (annualInterestRate < 0 || annualInterestRate > 0.5) {
+                throw new NumberFormatException("Interest rate must be between 0 and 50%");
+            }
+        } catch (NumberFormatException e) {
+            inputValid = false;
+            errorDialogue("Input Error", "Invalid Interest Rate",
+                    "Please enter a valid interest rate between 0 and 50%.");
         }
 
         try {
@@ -127,15 +155,16 @@ public class CalculatorController {
         double payBackMonths = totalCost / monthlySaving;
         double payBackYears = payBackMonths / 12;
 
-        // Calculate financial investment metrics
+        // Calculate financial investment metrics with user-provided loan parameters
         double investmentRatio = calculateInvestmentRatio(totalCost, householdIncome);
         double budgetImpact = calculateBudgetImpact(monthlySaving, householdIncome);
-        double monthlyLoanPayment = calculateMonthlyLoanPayment(totalCost);
+        double monthlyLoanPayment = calculateMonthlyLoanPayment(totalCost, annualInterestRate, loanTermYears);
         double netMonthlyCashFlow = monthlySaving - monthlyLoanPayment;
 
         // Display results with graph
         outputResults(totalCost, monthlySaving, payBackYears, householdIncome,
-                     investmentRatio, budgetImpact, monthlyLoanPayment, netMonthlyCashFlow);
+                     investmentRatio, budgetImpact, monthlyLoanPayment, netMonthlyCashFlow,
+                     annualInterestRate, loanTermYears);
     }
 
     // Calculate investment ratio as percentage of annual income
@@ -149,10 +178,15 @@ public class CalculatorController {
         return (monthlySavings / monthlyIncome) * 100;
     }
 
-    // Calculate monthly loan payment using amortization formula
-    private double calculateMonthlyLoanPayment(double principal) {
-        double monthlyInterestRate = ANNUAL_INTEREST_RATE / 12;
-        int totalPayments = LOAN_TERM_YEARS * 12;
+    // Calculate monthly loan payment using amortization formula with custom parameters
+    private double calculateMonthlyLoanPayment(double principal, double annualRate, int years) {
+        if (annualRate == 0) {
+            // If interest rate is 0, just divide principal by number of months
+            return principal / (years * 12);
+        }
+
+        double monthlyInterestRate = annualRate / 12;
+        int totalPayments = years * 12;
 
         double numerator = monthlyInterestRate * Math.pow(1 + monthlyInterestRate, totalPayments);
         double denominator = Math.pow(1 + monthlyInterestRate, totalPayments) - 1;
@@ -177,7 +211,8 @@ public class CalculatorController {
 
     private void outputResults(double totalCost, double monthlySavings, double paybackYears,
                               double monthlyIncome, double investmentRatio, double budgetImpact,
-                              double monthlyLoanPayment, double netMonthlyCashFlow) {
+                              double monthlyLoanPayment, double netMonthlyCashFlow,
+                              double annualInterestRate, int loanTermYears) {
         // Clear previous results
         outputBox.getChildren().clear();
         outputBox.setSpacing(10);
@@ -204,15 +239,15 @@ public class CalculatorController {
                                                  "Monthly Income", String.format("$%.2f", monthlyIncome));
         outputBox.getChildren().add(affordabilityBox);
 
-        // Financing Option Row
-        Label financingTitle = new Label(String.format("FINANCING OPTION (%d-Year Loan at %.0f%%)",
-                                         LOAN_TERM_YEARS, ANNUAL_INTEREST_RATE * 100));
+        // Financing Option Row - use actual values from user input
+        Label financingTitle = new Label(String.format("FINANCING OPTION (%d-Year Loan at %.1f%%)",
+                                         loanTermYears, annualInterestRate * 100));
         financingTitle.setStyle("-fx-font-size: 11px; -fx-font-weight: bold;");
         outputBox.getChildren().add(financingTitle);
 
         HBox financingBox = createMetricCard("Loan Payment", String.format("$%.2f/mo", monthlyLoanPayment),
                                             "Monthly Savings", String.format("$%.2f/mo", monthlySavings),
-                                            "Loan Term", String.format("%d years", LOAN_TERM_YEARS));
+                                            "Loan Term", String.format("%d years", loanTermYears));
         outputBox.getChildren().add(financingBox);
 
         // Net Monthly Cash Flow (The "Aha!" Moment)
@@ -251,12 +286,12 @@ public class CalculatorController {
 
         outputBox.getChildren().add(cashFlowBox);
 
-        // Add the financial graph
+        // Add the financial graph with custom loan parameters
         Label chartTitle = new Label("FINANCIAL PROJECTION OVER TIME");
         chartTitle.setStyle("-fx-font-size: 11px; -fx-font-weight: bold;");
         outputBox.getChildren().add(chartTitle);
 
-        LineChart<Number, Number> chart = createFinancialChart(totalCost, monthlySavings, monthlyLoanPayment);
+        LineChart<Number, Number> chart = createFinancialChart(totalCost, monthlySavings, monthlyLoanPayment, loanTermYears);
         outputBox.getChildren().add(chart);
     }
 
@@ -300,7 +335,8 @@ public class CalculatorController {
         return separator;
     }
 
-    private LineChart<Number, Number> createFinancialChart(double totalCost, double monthlySavings, double monthlyLoanPayment) {
+    private LineChart<Number, Number> createFinancialChart(double totalCost, double monthlySavings,
+                                                          double monthlyLoanPayment, int loanTermYears) {
         // Create axes
         NumberAxis xAxis = new NumberAxis();
         xAxis.setLabel("Months");
@@ -329,7 +365,7 @@ public class CalculatorController {
         netSeries.setName("Net Position (Savings - Loan)");
 
         // Calculate data points for up to 10 years or until loan is paid off
-        int maxMonths = Math.max(LOAN_TERM_YEARS * 12, (int) Math.ceil(totalCost / monthlySavings));
+        int maxMonths = Math.max(loanTermYears * 12, (int) Math.ceil(totalCost / monthlySavings));
         maxMonths = Math.min(maxMonths, 120); // Cap at 10 years for display
 
         double cumulativeSavings = 0;
@@ -340,7 +376,7 @@ public class CalculatorController {
             if (month > 0) {
                 cumulativeSavings += monthlySavings;
                 // Only add loan payments if within loan term
-                if (month <= LOAN_TERM_YEARS * 12) {
+                if (month <= loanTermYears * 12) {
                     cumulativeLoanPayments += monthlyLoanPayment;
                 }
             }

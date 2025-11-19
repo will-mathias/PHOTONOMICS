@@ -36,6 +36,25 @@
          </VBox>
       </children>
    </HBox>
+   <HBox alignment="CENTER" prefHeight="59.0" prefWidth="360.0" spacing="10.0">
+      <children>
+         <VBox prefHeight="42.0" prefWidth="160.0">
+            <children>
+               <Label alignment="CENTER" prefHeight="17.0" prefWidth="181.0" text="Loan Term (Years)" textAlignment="CENTER" wrapText="true" />
+               <TextField fx:id="loanTermField" prefHeight="25.0" prefWidth="169.0" text="7" />
+            </children>
+            <HBox.margin>
+               <Insets right="10.0" />
+            </HBox.margin>
+         </VBox>
+         <VBox prefHeight="42.0" prefWidth="160.0">
+            <children>
+               <Label alignment="CENTER" prefHeight="17.0" prefWidth="181.0" text="Interest Rate (%)" textAlignment="CENTER" wrapText="true" />
+               <TextField fx:id="interestRateField" prefHeight="25.0" prefWidth="169.0" text="8.0" />
+            </children>
+         </VBox>
+      </children>
+   </HBox>
     <Button onAction="#onCalculateButtonClick" text="Calculate" />
    <VBox fx:id="outputBox" alignment="TOP_CENTER" prefHeight="800.0" prefWidth="600.0" />
 </VBox>
