@@ -148,9 +148,11 @@ public class CalculatorController {
         double hardwareCostPerWatt = selectedRegion.getHardwareCostPerWatt();
         double avgPermitCost = selectedRegion.getAvgPermitCost();
 
-        double adjustedSystemSize = Math.ceil(energyUsage / peakSunHours);
+        // Calculate system size in kW (not W)
+        double adjustedSystemSizeKW = energyUsage / (peakSunHours * 30); // 30 days average per month
 
-        double totalCost = ((adjustedSystemSize * 1000) * (laborCostPerWatt + hardwareCostPerWatt) + avgPermitCost);
+        // Total cost calculation
+        double totalCost = ((adjustedSystemSizeKW * 1000) * (laborCostPerWatt + hardwareCostPerWatt) + avgPermitCost);
         double monthlySaving = energyUsage * selectedRegion.getUtilityRatePerKWh();
         double payBackMonths = totalCost / monthlySaving;
         double payBackYears = payBackMonths / 12;
@@ -164,7 +166,7 @@ public class CalculatorController {
         // Display results with graph
         outputResults(totalCost, monthlySaving, payBackYears, householdIncome,
                      investmentRatio, budgetImpact, monthlyLoanPayment, netMonthlyCashFlow,
-                     annualInterestRate, loanTermYears);
+                     annualInterestRate, loanTermYears, adjustedSystemSizeKW);
     }
 
     // Calculate investment ratio as percentage of annual income
@@ -212,7 +214,7 @@ public class CalculatorController {
     private void outputResults(double totalCost, double monthlySavings, double paybackYears,
                               double monthlyIncome, double investmentRatio, double budgetImpact,
                               double monthlyLoanPayment, double netMonthlyCashFlow,
-                              double annualInterestRate, int loanTermYears) {
+                              double annualInterestRate, int loanTermYears, double systemSizeKW) {
         // Clear previous results
         outputBox.getChildren().clear();
         outputBox.setSpacing(10);
@@ -224,10 +226,16 @@ public class CalculatorController {
         outputBox.getChildren().add(titleLabel);
 
         // System Cost & Savings Row
-        HBox systemInfoBox = createMetricCard("System Cost", String.format("$%.2f", totalCost),
-                                              "Monthly Savings", String.format("$%.2f", monthlySavings),
-                                              "Payback Period", String.format("%.1f years", paybackYears));
+        HBox systemInfoBox = createMetricCard("System Size", String.format("%.2f kW", systemSizeKW),
+                                              "Total Cost", String.format("$%.2f", totalCost),
+                                              "Monthly Savings", String.format("$%.2f", monthlySavings));
         outputBox.getChildren().add(systemInfoBox);
+
+        // Payback Period Row
+        HBox paybackBox = createMetricCard("Payback Period", String.format("%.1f years", paybackYears),
+                                          "Annual Savings", String.format("$%.2f", monthlySavings * 12),
+                                          "25-Year Savings", String.format("$%.2f", monthlySavings * 12 * 25));
+        outputBox.getChildren().add(paybackBox);
 
         // Affordability Analysis Row
         Label affordabilityTitle = new Label("AFFORDABILITY ANALYSIS");
@@ -239,15 +247,15 @@ public class CalculatorController {
                                                  "Monthly Income", String.format("$%.2f", monthlyIncome));
         outputBox.getChildren().add(affordabilityBox);
 
-        // Financing Option Row - use actual values from user input
+        // Financing Option Row - fix duplicate monthly savings
         Label financingTitle = new Label(String.format("FINANCING OPTION (%d-Year Loan at %.1f%%)",
                                          loanTermYears, annualInterestRate * 100));
         financingTitle.setStyle("-fx-font-size: 11px; -fx-font-weight: bold;");
         outputBox.getChildren().add(financingTitle);
 
-        HBox financingBox = createMetricCard("Loan Payment", String.format("$%.2f/mo", monthlyLoanPayment),
-                                            "Monthly Savings", String.format("$%.2f/mo", monthlySavings),
-                                            "Loan Term", String.format("%d years", loanTermYears));
+        HBox financingBox = createMetricCard("Monthly Payment", String.format("$%.2f", monthlyLoanPayment),
+                                            "Interest Rate", String.format("%.1f%%", annualInterestRate * 100),
+                                            "Total Interest", String.format("$%.2f", (monthlyLoanPayment * loanTermYears * 12) - totalCost));
         outputBox.getChildren().add(financingBox);
 
         // Net Monthly Cash Flow (The "Aha!" Moment)
