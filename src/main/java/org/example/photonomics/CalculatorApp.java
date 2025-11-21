@@ -11,7 +11,7 @@ public class CalculatorApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(CalculatorApp.class.getResource("calculatorUI.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 650, 900);
+        Scene scene = new Scene(fxmlLoader.load(), 650, 1000);
         stage.setTitle("Solar Cost Calculator");
         stage.setScene(scene);
         stage.show();
