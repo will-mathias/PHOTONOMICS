@@ -281,7 +281,7 @@ public class CalculatorController {
                 netMonthlyCashFlow));
             conclusionLabel.setWrapText(true);
             conclusionLabel.setStyle("-fx-text-fill: green; -fx-font-size: 12px; -fx-text-alignment: center;");
-            conclusionLabel.setMaxWidth(400);
+            conclusionLabel.setMaxWidth(600);
             cashFlowBox.getChildren().add(conclusionLabel);
         } else {
             Label warningLabel = new Label(
