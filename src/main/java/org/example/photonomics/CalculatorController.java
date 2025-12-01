@@ -288,7 +288,7 @@ public class CalculatorController {
                 "⚠ Monthly loan payments exceed savings. Consider a longer loan term or larger down payment.");
             warningLabel.setWrapText(true);
             warningLabel.setStyle("-fx-text-fill: orange; -fx-font-size: 12px; -fx-text-alignment: center;");
-            warningLabel.setMaxWidth(400);
+            warningLabel.setMaxWidth(600);
             cashFlowBox.getChildren().add(warningLabel);
         }
 
