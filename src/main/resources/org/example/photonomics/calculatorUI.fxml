@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -9,44 +8,50 @@
       xmlns="http://javafx.com/javafx/17"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="org.example.photonomics.CalculatorController"
-      style="-fx-padding: 20; -fx-font-size: 14px;" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://javafx.com/javafx/17 ">
+      style="-fx-padding: 20; -fx-font-size: 14px;">
 
     <!-- FIRST ROW -->
     <HBox spacing="15.0" alignment="CENTER">
-        <children>
+        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+            <Label text="Monthly Energy Usage (kWh)" wrapText="true"/>
+            <TextField fx:id="energyUsageField" maxWidth="Infinity"/>
+        </VBox>
 
-            <VBox spacing="5.0" HBox.hgrow="ALWAYS">
-                <Label text="Monthly Energy Usage (kWh)" wrapText="true"/>
-                <TextField fx:id="energyUsageField" maxWidth="Infinity"/>
-            </VBox>
+        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+            <Label text="Household Income (USD)" wrapText="true"/>
+            <TextField fx:id="HouseholdIncomeField" maxWidth="Infinity"/>
+        </VBox>
 
-            <VBox spacing="5.0" HBox.hgrow="ALWAYS">
-                <Label text="Household Income (USD)" wrapText="true"/>
-                <TextField fx:id="householdIncomeField" maxWidth="Infinity"/>
-            </VBox>
-
-            <VBox spacing="5.0" HBox.hgrow="ALWAYS">
-                <Label text="County"/>
-                <ChoiceBox fx:id="regionDropDown" maxWidth="Infinity"/>
-            </VBox>
-
-        </children>
+        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+            <Label text="County"/>
+            <ChoiceBox fx:id="regionDropDown" maxWidth="Infinity"/>
+        </VBox>
     </HBox>
 
     <!-- SECOND ROW -->
     <HBox spacing="15.0" alignment="CENTER">
-        <children>
+        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+            <Label text="Loan Term (Years)"/>
+            <TextField fx:id="loanTermField" text="7" maxWidth="Infinity"/>
+        </VBox>
 
-            <VBox spacing="5.0" HBox.hgrow="ALWAYS">
-                <Label text="Loan Term (Years)"/>
-                <TextField fx:id="loanTermField" text="7" maxWidth="Infinity"/>
-            </VBox>
+        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+            <Label text="Interest Rate (%)"/>
+            <TextField fx:id="interestRateField" text="8.0" maxWidth="Infinity"/>
+        </VBox>
+    </HBox>
 
-            <VBox spacing="5.0" HBox.hgrow="ALWAYS">
-                <Label text="Interest Rate (%)"/>
-                <TextField fx:id="interestRateField" text="8.0" maxWidth="Infinity"/>
-            </VBox>
+    <!-- BUTTON -->
+    <Button text="Calculate"
+            onAction="#onCalculateButtonClick"
+            maxWidth="200"/>
 
-        </children
+    <!-- OUTPUT AREA -->
+    <VBox fx:id="outputBox"
+          spacing="10.0"
+          alignment="TOP_CENTER"
+          VBox.vgrow="ALWAYS"
+          style="-fx-padding: 10; -fx-border-color: lightgray; -fx-border-radius: 5;">
+    </VBox>
 
+</VBox>
