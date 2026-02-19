@@ -10,30 +10,33 @@ import javafx.stage.Stage;
 public class CalculatorApp extends Application {
 
     @Override
-    public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/org/example/photonomics/calculator.fxml")
-        );
+    public void start(Stage stage) {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/org/example/photonomics/calculator.fxml")
+            );
 
-        Scene scene = new Scene(loader.load());
+            Scene scene = new Scene(loader.load());
 
-        // Limit window size to 90% of screen dimensions
-        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-        double maxWidth = screenBounds.getWidth() * 0.9;
-        double maxHeight = screenBounds.getHeight() * 0.9;
+            Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+            double maxWidth = screenBounds.getWidth() * 0.9;
+            double maxHeight = screenBounds.getHeight() * 0.9;
 
-        stage.setScene(scene);
-        stage.setTitle("Photonomics Calculator");
+            stage.setScene(scene);
+            stage.setTitle("Photonomics Calculator");
 
-        // Set window size based on scene's preferred size but limit it
-        stage.setWidth(Math.min(scene.getWidth(), maxWidth));
-        stage.setHeight(Math.min(scene.getHeight(), maxHeight));
+            // Set initial size based on scene but limit to screen
+            stage.setWidth(Math.min(scene.getWidth(), maxWidth));
+            stage.setHeight(Math.min(scene.getHeight(), maxHeight));
 
-        // Optional: prevent resizing beyond screen
-        stage.setMaxWidth(maxWidth);
-        stage.setMaxHeight(maxHeight);
+            stage.setMaxWidth(maxWidth);
+            stage.setMaxHeight(maxHeight);
 
-        stage.show();
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace(); // <-- shows errors if FXML/controller fails
+        }
     }
 }
+
 

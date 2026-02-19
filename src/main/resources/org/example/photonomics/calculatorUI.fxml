@@ -47,11 +47,16 @@
             maxWidth="200"/>
 
     <!-- OUTPUT AREA -->
-    <VBox fx:id="outputBox"
-          spacing="10.0"
-          alignment="TOP_CENTER"
-          VBox.vgrow="ALWAYS"
-          style="-fx-padding: 10; -fx-border-color: lightgray; -fx-border-radius: 5;">
-    </VBox>
+    <ScrollPane fitToWidth="true" fitToHeight="true">
+        <content>
+            <VBox fx:id="outputBox"
+                  spacing="10.0"
+                  alignment="TOP_CENTER"
+                  VBox.vgrow="ALWAYS"
+                  maxHeight="600"
+                  style="-fx-padding: 10; -fx-border-color: lightgray; -fx-border-radius: 5;">
+            </VBox>
+        </content>
+    </ScrollPane>
 
 </VBox>
