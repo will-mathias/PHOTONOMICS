@@ -1,35 +1,44 @@
 package org.example.photonomics;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
+import javafx.geometry.Rectangle2D;
 
-public class CalculatorController {
+public class CalculatorApp extends Application {
 
-    @FXML private TextField energyUsageField;
-    @FXML private TextField HouseholdIncomeField;
-    @FXML private ChoiceBox<String> regionDropDown;
-    @FXML private VBox outputBox;
+    @Override
+    public void start(Stage stage) {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/org/example/photonomics/calculator.fxml")
+            );
 
-    @FXML
-    void initialize() {
-        // Add dummy regions for testing
-        regionDropDown.getItems().addAll("Bomi", "Bong", "Gbarpolu");
-    }
+            System.out.println("FXML URL: " + loader.getLocation());
 
-    @FXML
-    protected void onCalculateButtonClick() {
-        outputBox.getChildren().clear();
-        String energy = energyUsageField.getText();
-        String income = HouseholdIncomeField.getText();
-        String region = regionDropDown.getValue();
+            Scene scene = new Scene(loader.load());
 
-        Label result = new Label("Energy: " + energy + "\nIncome: " + income + "\nRegion: " + region);
-        outputBox.getChildren().add(result);
+            stage.setScene(scene);
+            stage.setTitle("Photonomics Calculator");
+
+            // Fit window to 90% of screen
+            Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+            stage.setWidth(Math.min(800, screenBounds.getWidth() * 0.9));
+            stage.setHeight(Math.min(600, screenBounds.getHeight() * 0.9));
+
+            stage.show();
+
+            System.out.println("Window shown successfully");
+
+        } catch (Exception e) {
+            System.out.println("Failed to load FXML:");
+            e.printStackTrace();
+        }
     }
 }
+
 
 
 

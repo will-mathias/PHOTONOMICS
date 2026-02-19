@@ -1,37 +1,44 @@
 package org.example.photonomics;
 
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.stage.Screen;
-import javafx.stage.Stage;
-import javafx.geometry.Rectangle2D;
+import javafx.fxml.FXML;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 
-public class CalculatorApp extends Application {
+public class CalculatorController {
 
-    @Override
-    public void start(Stage stage) {
-        try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/org/example/photonomics/calculator.fxml")
-            );
-            System.out.println("FXML URL: " + loader.getLocation()); // Should print non-null
+    @FXML private TextField energyUsageField;
+    @FXML private TextField HouseholdIncomeField;
+    @FXML private ChoiceBox<String> regionDropDown;
+    @FXML private VBox outputBox;
 
-            Scene scene = new Scene(loader.load());
-            stage.setScene(scene);
-            stage.setTitle("Test Photonomics Window");
+    @FXML
+    void initialize() {
+        // Dummy regions for now
+        regionDropDown.getItems().addAll(
+                "Bomi",
+                "Bong",
+                "Gbarpolu",
+                "Grand Bassa",
+                "Grand Cape Mount"
+        );
+    }
 
-            Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-            stage.setWidth(Math.min(600, screenBounds.getWidth() * 0.9));
-            stage.setHeight(Math.min(400, screenBounds.getHeight() * 0.9));
-            stage.show();
+    @FXML
+    protected void onCalculateButtonClick() {
+        outputBox.getChildren().clear();
 
-            System.out.println("Window shown successfully");
+        String energy = energyUsageField.getText();
+        String income = HouseholdIncomeField.getText();
+        String region = regionDropDown.getValue();
 
-        } catch (Exception e) {
-            System.out.println("Failed to load FXML:");
-            e.printStackTrace();
-        }
+        Label result = new Label(
+                "Energy Usage: " + energy + " kWh\n" +
+                        "Household Income: $" + income + "\n" +
+                        "Region: " + region
+        );
+
+        outputBox.getChildren().add(result);
     }
 }
-
