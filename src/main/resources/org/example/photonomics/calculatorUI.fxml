@@ -1,62 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox spacing="20.0"
-      alignment="TOP_CENTER"
-      xmlns="http://javafx.com/javafx/17"
+<VBox xmlns="http://javafx.com/javafx/17"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="org.example.photonomics.CalculatorController"
-      style="-fx-padding: 20; -fx-font-size: 14px;">
+      alignment="CENTER" spacing="10" style="-fx-padding: 20;">
 
-    <!-- FIRST ROW -->
-    <HBox spacing="15.0" alignment="CENTER">
-        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
-            <Label text="Monthly Energy Usage (kWh)" wrapText="true"/>
-            <TextField fx:id="energyUsageField" maxWidth="Infinity"/>
-        </VBox>
-
-        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
-            <Label text="Household Income (USD)" wrapText="true"/>
-            <TextField fx:id="HouseholdIncomeField" maxWidth="Infinity"/>
-        </VBox>
-
-        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
-            <Label text="County"/>
-            <ChoiceBox fx:id="regionDropDown" maxWidth="Infinity"/>
-        </VBox>
-    </HBox>
-
-    <!-- SECOND ROW -->
-    <HBox spacing="15.0" alignment="CENTER">
-        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
-            <Label text="Loan Term (Years)"/>
-            <TextField fx:id="loanTermField" text="7" maxWidth="Infinity"/>
-        </VBox>
-
-        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
-            <Label text="Interest Rate (%)"/>
-            <TextField fx:id="interestRateField" text="8.0" maxWidth="Infinity"/>
-        </VBox>
-    </HBox>
-
-    <!-- BUTTON -->
-    <Button text="Calculate"
-            onAction="#onCalculateButtonClick"
-            maxWidth="200"/>
-
-    <!-- OUTPUT AREA -->
-    <ScrollPane fitToWidth="true" fitToHeight="true">
-        <content>
-            <VBox fx:id="outputBox"
-                  spacing="10.0"
-                  alignment="TOP_CENTER"
-                  VBox.vgrow="ALWAYS"
-                  maxHeight="600"
-                  style="-fx-padding: 10; -fx-border-color: lightgray; -fx-border-radius: 5;">
-            </VBox>
-        </content>
-    </ScrollPane>
-
+    <Label text="Photonomics Calculator"/>
+    <TextField fx:id="energyUsageField" promptText="Monthly Energy Usage (kWh)"/>
+    <TextField fx:id="HouseholdIncomeField" promptText="Household Income (USD)"/>
+    <Button text="Calculate" onAction="#onCalculateButtonClick"/>
+    <VBox fx:id="outputBox" spacing="10" style="-fx-border-color: gray; -fx-padding: 10;"/>
 </VBox>
+
