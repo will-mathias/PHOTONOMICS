@@ -40,21 +40,21 @@ public class CalculatorController {
     // Initialize the regions with their respective data
     private void initRegions() {
         regions = new Region[] {
-            new Region("Bomi", 4.6, 1.80, 0.55, 250, 0.35),
-            new Region("Bong", 5.1, 1.60, 0.55, 220, 0.33),
-            new Region("Gbarpolu", 4.9, 1.75, 0.45, 180, 0.31),
-            new Region("Grand Bassa", 4.7, 1.55, 0.58, 280, 0.34),
-            new Region("Grand Cape Mount", 4.7, 1.65, 0.50, 230, 0.34),
-            new Region("Grand Gedeh", 5.2, 1.70, 0.45, 200, 0.32),
-            new Region("Grand Kru", 4.9, 1.80, 0.45, 180, 0.31),
-            new Region("Lofa", 5.0, 1.70, 0.50, 180, 0.31),
-            new Region("Margibi", 4.6, 1.55, 0.58, 300, 0.35),
-            new Region("Maryland", 5.0, 1.75, 0.45, 190, 0.31),
-            new Region("Montserrado", 4.5, 1.50, 0.60, 350, 0.35),
-            new Region("Nimba", 5.2, 1.65, 0.50, 200, 0.32),
-            new Region("Rivercess", 4.8, 1.70, 0.48, 190, 0.32),
-            new Region("River Gee", 5.1, 1.75, 0.45, 190, 0.31),
-            new Region("Sinoe", 4.9, 1.70, 0.48, 190, 0.32)
+                new Region("Bomi", 4.6, 1.80, 0.55, 250, 0.35),
+                new Region("Bong", 5.1, 1.60, 0.55, 220, 0.33),
+                new Region("Gbarpolu", 4.9, 1.75, 0.45, 180, 0.31),
+                new Region("Grand Bassa", 4.7, 1.55, 0.58, 280, 0.34),
+                new Region("Grand Cape Mount", 4.7, 1.65, 0.50, 230, 0.34),
+                new Region("Grand Gedeh", 5.2, 1.70, 0.45, 200, 0.32),
+                new Region("Grand Kru", 4.9, 1.80, 0.45, 180, 0.31),
+                new Region("Lofa", 5.0, 1.70, 0.50, 180, 0.31),
+                new Region("Margibi", 4.6, 1.55, 0.58, 300, 0.35),
+                new Region("Maryland", 5.0, 1.75, 0.45, 190, 0.31),
+                new Region("Montserrado", 4.5, 1.50, 0.60, 350, 0.35),
+                new Region("Nimba", 5.2, 1.65, 0.50, 200, 0.32),
+                new Region("Rivercess", 4.8, 1.70, 0.48, 190, 0.32),
+                new Region("River Gee", 5.1, 1.75, 0.45, 190, 0.31),
+                new Region("Sinoe", 4.9, 1.70, 0.48, 190, 0.32)
         };
     }
 
@@ -165,8 +165,8 @@ public class CalculatorController {
 
         // Display results with graph
         outputResults(totalCost, monthlySaving, payBackYears, householdIncome,
-                     investmentRatio, budgetImpact, monthlyLoanPayment, netMonthlyCashFlow,
-                     annualInterestRate, loanTermYears, adjustedSystemSizeKW);
+                investmentRatio, budgetImpact, monthlyLoanPayment, netMonthlyCashFlow,
+                annualInterestRate, loanTermYears, adjustedSystemSizeKW);
     }
 
     // Calculate investment ratio as percentage of annual income
@@ -212,9 +212,9 @@ public class CalculatorController {
     }
 
     private void outputResults(double totalCost, double monthlySavings, double paybackYears,
-                              double monthlyIncome, double investmentRatio, double budgetImpact,
-                              double monthlyLoanPayment, double netMonthlyCashFlow,
-                              double annualInterestRate, int loanTermYears, double systemSizeKW) {
+                               double monthlyIncome, double investmentRatio, double budgetImpact,
+                               double monthlyLoanPayment, double netMonthlyCashFlow,
+                               double annualInterestRate, int loanTermYears, double systemSizeKW) {
         // Clear previous results
         outputBox.getChildren().clear();
         outputBox.setSpacing(10);
@@ -227,14 +227,14 @@ public class CalculatorController {
 
         // System Cost & Savings Row
         HBox systemInfoBox = createMetricCard("System Size", String.format("%.2f kW", systemSizeKW),
-                                              "Total Cost", String.format("$%.2f", totalCost),
-                                              "Monthly Savings", String.format("$%.2f", monthlySavings));
+                "Total Cost", String.format("$%.2f", totalCost),
+                "Monthly Savings", String.format("$%.2f", monthlySavings));
         outputBox.getChildren().add(systemInfoBox);
 
         // Payback Period Row
         HBox paybackBox = createMetricCard("Payback Period", String.format("%.1f years", paybackYears),
-                                          "Annual Savings", String.format("$%.2f", monthlySavings * 12),
-                                          "25-Year Savings", String.format("$%.2f", monthlySavings * 12 * 25));
+                "Annual Savings", String.format("$%.2f", monthlySavings * 12),
+                "25-Year Savings", String.format("$%.2f", monthlySavings * 12 * 25));
         outputBox.getChildren().add(paybackBox);
 
         // Affordability Analysis Row
@@ -243,49 +243,49 @@ public class CalculatorController {
         outputBox.getChildren().add(affordabilityTitle);
 
         HBox affordabilityBox = createMetricCard("Investment Ratio", String.format("%.1f%%", investmentRatio),
-                                                 "Budget Impact", String.format("%.1f%%", budgetImpact),
-                                                 "Monthly Income", String.format("$%.2f", monthlyIncome));
+                "Budget Impact", String.format("%.1f%%", budgetImpact),
+                "Monthly Income", String.format("$%.2f", monthlyIncome));
         outputBox.getChildren().add(affordabilityBox);
 
-        // Financing Option Row - fix duplicate monthly savings
+        // Financing Option Row
         Label financingTitle = new Label(String.format("FINANCING OPTION (%d-Year Loan at %.1f%%)",
-                                         loanTermYears, annualInterestRate * 100));
+                loanTermYears, annualInterestRate * 100));
         financingTitle.setStyle("-fx-font-size: 11px; -fx-font-weight: bold;");
         outputBox.getChildren().add(financingTitle);
 
         HBox financingBox = createMetricCard("Monthly Payment", String.format("$%.2f", monthlyLoanPayment),
-                                            "Interest Rate", String.format("%.1f%%", annualInterestRate * 100),
-                                            "Total Interest", String.format("$%.2f", (monthlyLoanPayment * loanTermYears * 12) - totalCost));
+                "Interest Rate", String.format("%.1f%%", annualInterestRate * 100),
+                "Total Interest", String.format("$%.2f", (monthlyLoanPayment * loanTermYears * 12) - totalCost));
         outputBox.getChildren().add(financingBox);
 
-        // Net Monthly Cash Flow (The "Aha!" Moment)
+        // Net Monthly Cash Flow
         VBox cashFlowBox = new VBox(3);
         cashFlowBox.setAlignment(Pos.CENTER);
         cashFlowBox.setPadding(new Insets(10));
         cashFlowBox.setStyle("-fx-background-color: #f0f8ff; -fx-border-color: #4a90e2; " +
-                           "-fx-border-width: 2px; -fx-border-radius: 5px; -fx-background-radius: 5px;");
+                "-fx-border-width: 2px; -fx-border-radius: 5px; -fx-background-radius: 5px;");
 
         Label cashFlowLabel = new Label("💡 NET MONTHLY CASH FLOW");
         cashFlowLabel.setStyle("-fx-font-size: 12px; -fx-font-weight: bold;");
 
         Label cashFlowAmount = new Label(String.format("$%.2f", netMonthlyCashFlow));
         cashFlowAmount.setStyle(String.format("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: %s;",
-                                            netMonthlyCashFlow > 0 ? "green" : "orange"));
+                netMonthlyCashFlow > 0 ? "green" : "orange"));
 
         cashFlowBox.getChildren().addAll(cashFlowLabel, cashFlowAmount);
 
         if (netMonthlyCashFlow > 0) {
             Label conclusionLabel = new Label(String.format(
-                "✓ The solar system pays for its own financing from month 1, " +
-                "leaving you with an extra $%.2f every month!",
-                netMonthlyCashFlow));
+                    "✓ The solar system pays for its own financing from month 1, " +
+                            "leaving you with an extra $%.2f every month!",
+                    netMonthlyCashFlow));
             conclusionLabel.setWrapText(true);
             conclusionLabel.setStyle("-fx-text-fill: green; -fx-font-size: 12px; -fx-text-alignment: center;");
             conclusionLabel.setMaxWidth(600);
             cashFlowBox.getChildren().add(conclusionLabel);
         } else {
             Label warningLabel = new Label(
-                "⚠ Monthly loan payments exceed savings. Consider a longer loan term or larger down payment.");
+                    "⚠ Monthly loan payments exceed savings. Consider a longer loan term or larger down payment.");
             warningLabel.setWrapText(true);
             warningLabel.setStyle("-fx-text-fill: orange; -fx-font-size: 12px; -fx-text-alignment: center;");
             warningLabel.setMaxWidth(600);
@@ -294,7 +294,7 @@ public class CalculatorController {
 
         outputBox.getChildren().add(cashFlowBox);
 
-        // Add the financial graph with custom loan parameters
+        // Financial chart
         Label chartTitle = new Label("FINANCIAL PROJECTION OVER TIME");
         chartTitle.setStyle("-fx-font-size: 11px; -fx-font-weight: bold;");
         outputBox.getChildren().add(chartTitle);
@@ -308,7 +308,7 @@ public class CalculatorController {
         container.setAlignment(Pos.CENTER);
         container.setPadding(new Insets(8));
         container.setStyle("-fx-background-color: #ffffff; -fx-border-color: #cccccc; " +
-                          "-fx-border-width: 1px; -fx-border-radius: 5px; -fx-background-radius: 5px;");
+                "-fx-border-width: 1px; -fx-border-radius: 5px; -fx-background-radius: 5px;");
 
         VBox card1 = createMetricBox(label1, value1);
         VBox card2 = createMetricBox(label2, value2);
@@ -344,8 +344,7 @@ public class CalculatorController {
     }
 
     private LineChart<Number, Number> createFinancialChart(double totalCost, double monthlySavings,
-                                                          double monthlyLoanPayment, int loanTermYears) {
-        // Create axes
+                                                           double monthlyLoanPayment, int loanTermYears) {
         NumberAxis xAxis = new NumberAxis();
         xAxis.setLabel("Months");
         xAxis.setTickLabelFont(javafx.scene.text.Font.font(9));
@@ -353,7 +352,6 @@ public class CalculatorController {
         yAxis.setLabel("Cumulative Amount ($)");
         yAxis.setTickLabelFont(javafx.scene.text.Font.font(9));
 
-        // Create chart
         LineChart<Number, Number> chart = new LineChart<>(xAxis, yAxis);
         chart.setTitle("Savings vs. Loan Payments Over Time");
         chart.setCreateSymbols(false);
@@ -362,7 +360,6 @@ public class CalculatorController {
         chart.setMaxHeight(250);
         chart.setLegendVisible(true);
 
-        // Create data series
         XYChart.Series<Number, Number> savingsSeries = new XYChart.Series<>();
         savingsSeries.setName("Cumulative Savings");
 
@@ -372,9 +369,8 @@ public class CalculatorController {
         XYChart.Series<Number, Number> netSeries = new XYChart.Series<>();
         netSeries.setName("Net Position (Savings - Loan)");
 
-        // Calculate data points for up to 10 years or until loan is paid off
         int maxMonths = Math.max(loanTermYears * 12, (int) Math.ceil(totalCost / monthlySavings));
-        maxMonths = Math.min(maxMonths, 120); // Cap at 10 years for display
+        maxMonths = Math.min(maxMonths, 120); // Cap at 10 years
 
         double cumulativeSavings = 0;
         double cumulativeLoanPayments = 0;
@@ -383,7 +379,6 @@ public class CalculatorController {
         for (int month = 0; month <= maxMonths; month++) {
             if (month > 0) {
                 cumulativeSavings += monthlySavings;
-                // Only add loan payments if within loan term
                 if (month <= loanTermYears * 12) {
                     cumulativeLoanPayments += monthlyLoanPayment;
                 }
@@ -395,20 +390,17 @@ public class CalculatorController {
             loanSeries.getData().add(new XYChart.Data<>(month, cumulativeLoanPayments));
             netSeries.getData().add(new XYChart.Data<>(month, netPosition));
 
-            // Find break-even point (when net position becomes positive)
             if (breakEvenMonth == -1 && netPosition >= 0 && month > 0) {
                 breakEvenMonth = month;
             }
         }
 
-        // Add series to chart
         chart.getData().addAll(savingsSeries, loanSeries, netSeries);
 
-        // Add break-even information
         if (breakEvenMonth > 0) {
             Label breakEvenLabel = new Label(String.format(
-                "✓ Break-even point: Month %d (%.1f years) - After this, you're in profit!",
-                breakEvenMonth, breakEvenMonth / 12.0));
+                    "✓ Break-even point: Month %d (%.1f years) - After this, you're in profit!",
+                    breakEvenMonth, breakEvenMonth / 12.0));
             breakEvenLabel.setStyle("-fx-text-fill: green; -fx-font-weight: bold;");
             outputBox.getChildren().add(breakEvenLabel);
         }
@@ -416,3 +408,4 @@ public class CalculatorController {
         return chart;
     }
 }
+
