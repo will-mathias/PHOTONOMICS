@@ -7,10 +7,16 @@
       fx:controller="org.example.photonomics.CalculatorController"
       alignment="CENTER" spacing="10" style="-fx-padding: 20;">
 
-    <Label text="Photonomics Calculator"/>
-    <TextField fx:id="energyUsageField" promptText="Monthly Energy Usage (kWh)"/>
+    <Label text="Photonomics Test Window"/>
+
+    <TextField fx:id="energyUsageField" promptText="Energy Usage (kWh)"/>
     <TextField fx:id="HouseholdIncomeField" promptText="Household Income (USD)"/>
-    <Button text="Calculate" onAction="#onCalculateButtonClick"/>
+
+    <ChoiceBox fx:id="regionDropDown"/>
+
+    <Button text="Test Button" onAction="#onCalculateButtonClick"/>
+
     <VBox fx:id="outputBox" spacing="10" style="-fx-border-color: gray; -fx-padding: 10;"/>
 </VBox>
+
 

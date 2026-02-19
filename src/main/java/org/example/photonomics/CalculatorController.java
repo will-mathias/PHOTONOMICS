@@ -1,70 +1,37 @@
 package org.example.photonomics;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.layout.HBox;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
+import javafx.geometry.Rectangle2D;
 
-public class CalculatorController {
+public class CalculatorApp extends Application {
 
-    @FXML private TextField energyUsageField;
-    @FXML private TextField HouseholdIncomeField; // Matches FXML exactly
-    @FXML private TextField loanTermField;
-    @FXML private TextField interestRateField;
-    @FXML private ChoiceBox<String> regionDropDown;
-    @FXML private VBox outputBox;
+    @Override
+    public void start(Stage stage) {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/org/example/photonomics/calculator.fxml")
+            );
+            System.out.println("FXML URL: " + loader.getLocation()); // Should print non-null
 
-    // Define regions for demonstration
-    private Region[] regions;
+            Scene scene = new Scene(loader.load());
+            stage.setScene(scene);
+            stage.setTitle("Test Photonomics Window");
 
-    @FXML
-    void initialize() {
-        initRegions();
-        for (Region region : regions) {
-            regionDropDown.getItems().add(region.getRegionName());
+            Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+            stage.setWidth(Math.min(600, screenBounds.getWidth() * 0.9));
+            stage.setHeight(Math.min(400, screenBounds.getHeight() * 0.9));
+            stage.show();
+
+            System.out.println("Window shown successfully");
+
+        } catch (Exception e) {
+            System.out.println("Failed to load FXML:");
+            e.printStackTrace();
         }
-    }
-
-    @FXML
-    protected void onCalculateButtonClick() {
-        // For demonstration, just show a simple message
-        outputBox.getChildren().clear();
-        Label label = new Label("Calculation executed successfully!");
-        label.setStyle("-fx-font-weight: bold; -fx-text-fill: green;");
-        outputBox.getChildren().add(label);
-    }
-
-    private void initRegions() {
-        regions = new Region[] {
-                new Region("Bomi", 4.6, 1.80, 0.55, 250, 0.35),
-                new Region("Bong", 5.1, 1.60, 0.55, 220, 0.33)
-                // Add the rest of the regions as needed
-        };
-    }
-
-    private static class Region {
-        private final String name;
-        private final double peakSunHours, laborCost, hardwareCost, avgPermitCost, utilityRate;
-
-        public Region(String name, double peakSunHours, double laborCost, double hardwareCost, double avgPermitCost, double utilityRate) {
-            this.name = name;
-            this.peakSunHours = peakSunHours;
-            this.laborCost = laborCost;
-            this.hardwareCost = hardwareCost;
-            this.avgPermitCost = avgPermitCost;
-            this.utilityRate = utilityRate;
-        }
-
-        public String getRegionName() { return name; }
-        public double getPeakSunHours() { return peakSunHours; }
-        public double getLaborCostPerWatt() { return laborCost; }
-        public double getHardwareCostPerWatt() { return hardwareCost; }
-        public double getAvgPermitCost() { return avgPermitCost; }
-        public double getUtilityRatePerKWh() { return utilityRate; }
     }
 }
+
