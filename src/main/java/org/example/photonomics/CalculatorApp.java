@@ -4,6 +4,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
 import java.io.IOException;
 
 public class CalculatorApp extends Application {
@@ -13,10 +15,19 @@ public class CalculatorApp extends Application {
         try {
             FXMLLoader loader = new FXMLLoader(CalculatorApp.class.getResource("calculatorUI.fxml"));
             Scene scene = new Scene(loader.load());
-            stage.setTitle("Solar Cost Calculator");
+
+            stage.setTitle("🌞 Photonomics Solar Cost Calculator");
             stage.setScene(scene);
-            stage.setMinWidth(650);
-            stage.setMinHeight(800);
+
+            // Fixed min size, resizable
+            stage.setWidth(650);
+            stage.setHeight(800);
+            stage.setMinWidth(600);
+            stage.setMinHeight(700);
+
+            // Standard OS window with X, minimize, maximize
+            stage.initStyle(StageStyle.DECORATED);
+
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
