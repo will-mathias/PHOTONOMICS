@@ -31,13 +31,22 @@ public class CalculatorController {
     }
 
     private void loadRegions() {
-        regions = new Region[]{
+        regions = new Region[] {
                 new Region("Bomi", 4.6, 1.80, 0.55, 250, 0.35, 0.1),
                 new Region("Bong", 5.1, 1.60, 0.55, 220, 0.33, 0.1),
                 new Region("Gbarpolu", 4.9, 1.75, 0.45, 180, 0.31, 0.1),
                 new Region("Grand Bassa", 4.7, 1.55, 0.58, 280, 0.34, 0.1),
-                new Region("Montserrado", 4.5, 1.50, 0.60, 350, 0.35, 0.1)
-                // Add others as needed
+                new Region("Grand Cape Mount", 4.7, 1.65, 0.50, 230, 0.34, 0.1),
+                new Region("Grand Gedeh", 5.2, 1.70, 0.45, 200, 0.32, 0.1),
+                new Region("Grand Kru", 4.9, 1.80, 0.45, 180, 0.31, 0.1),
+                new Region("Lofa", 5.0, 1.70, 0.50, 180, 0.31, 0.1),
+                new Region("Margibi", 4.6, 1.55, 0.58, 300, 0.35, 0.1),
+                new Region("Maryland", 5.0, 1.75, 0.45, 190, 0.31, 0.1),
+                new Region("Montserrado", 4.5, 1.50, 0.60, 350, 0.35, 0.1),
+                new Region("Nimba", 5.2, 1.65, 0.50, 200, 0.32, 0.1),
+                new Region("Rivercess", 4.8, 1.70, 0.48, 190, 0.32, 0.1),
+                new Region("River Gee", 5.1, 1.75, 0.45, 190, 0.31, 0.1),
+                new Region("Sinoe", 4.9, 1.70, 0.48, 190, 0.32, 0.1)
         };
     }
 
