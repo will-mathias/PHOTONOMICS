@@ -3,37 +3,34 @@ package org.example.photonomics;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.geometry.Rectangle2D;
+import java.io.IOException;
 
 public class CalculatorApp extends Application {
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
+        try {
+            FXMLLoader loader = new FXMLLoader(CalculatorApp.class.getResource("calculatorUI.fxml"));
+            Scene scene = new Scene(loader.load());
+            stage.setTitle("Solar Cost Calculator");
+            stage.setScene(scene);
+            stage.setMinWidth(650);
+            stage.setMinHeight(800);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Cannot load FXML. Make sure calculatorUI.fxml exists in resources.");
+        }
+    }
 
-        FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/org/example/photonomics/calculator.fxml")
-        );
-
-        Scene scene = new Scene(loader.load());
-
-        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-        double maxWidth = screenBounds.getWidth() * 0.9;
-        double maxHeight = screenBounds.getHeight() * 0.9;
-
-        stage.setScene(scene);
-        stage.setTitle("Photonomics Calculator");
-
-        stage.setWidth(Math.min(scene.getWidth(), maxWidth));
-        stage.setHeight(Math.min(scene.getHeight(), maxHeight));
-
-        stage.setMaxWidth(maxWidth);
-        stage.setMaxHeight(maxHeight);
-
-        stage.show();
+    public static void main(String[] args) {
+        launch(args);
     }
 }
+
+
+
 
 
 
