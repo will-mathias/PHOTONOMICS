@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -12,6 +13,7 @@
 
     <!-- FIRST ROW -->
     <HBox spacing="15.0" alignment="CENTER">
+
         <VBox spacing="5.0" HBox.hgrow="ALWAYS">
             <Label text="Monthly Energy Usage (kWh)" wrapText="true"/>
             <TextField fx:id="energyUsageField" maxWidth="Infinity"/>
@@ -19,17 +21,19 @@
 
         <VBox spacing="5.0" HBox.hgrow="ALWAYS">
             <Label text="Household Income (USD)" wrapText="true"/>
-            <TextField fx:id="HouseholdIncomeField" maxWidth="Infinity"/>
+            <TextField fx:id="householdIncomeField" maxWidth="Infinity"/>
         </VBox>
 
         <VBox spacing="5.0" HBox.hgrow="ALWAYS">
             <Label text="County"/>
             <ChoiceBox fx:id="regionDropDown" maxWidth="Infinity"/>
         </VBox>
+
     </HBox>
 
     <!-- SECOND ROW -->
     <HBox spacing="15.0" alignment="CENTER">
+
         <VBox spacing="5.0" HBox.hgrow="ALWAYS">
             <Label text="Loan Term (Years)"/>
             <TextField fx:id="loanTermField" text="7" maxWidth="Infinity"/>
@@ -39,6 +43,7 @@
             <Label text="Interest Rate (%)"/>
             <TextField fx:id="interestRateField" text="8.0" maxWidth="Infinity"/>
         </VBox>
+
     </HBox>
 
     <!-- BUTTON -->
@@ -55,4 +60,5 @@
     </VBox>
 
 </VBox>
+
 
