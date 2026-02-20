@@ -1,38 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx/17"
+<VBox spacing="20.0"
+      alignment="TOP_CENTER"
+      xmlns="http://javafx.com/javafx/17"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="org.example.photonomics.CalculatorController"
-      alignment="CENTER"
-      spacing="15"
       style="-fx-padding: 20; -fx-font-size: 14px;">
 
-    <Label text="Photonomics Calculator"
-           style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+    <!-- FIRST ROW -->
+    <HBox spacing="15.0" alignment="CENTER">
+        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+            <Label text="Monthly Energy Usage (kWh)" wrapText="true"/>
+            <TextField fx:id="energyUsageField" maxWidth="Infinity"/>
+        </VBox>
 
-    <TextField fx:id="energyUsageField"
-               promptText="Monthly Energy Usage (kWh)"
-               maxWidth="300"/>
+        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+            <Label text="Household Income (USD)" wrapText="true"/>
+            <TextField fx:id="HouseholdIncomeField" maxWidth="Infinity"/>
+        </VBox>
 
-    <TextField fx:id="HouseholdIncomeField"
-               promptText="Household Income (USD)"
-               maxWidth="300"/>
+        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+            <Label text="County"/>
+            <ChoiceBox fx:id="regionDropDown" maxWidth="Infinity"/>
+        </VBox>
+    </HBox>
 
-    <ChoiceBox fx:id="regionDropDown"
-               maxWidth="300"/>
+    <!-- SECOND ROW -->
+    <HBox spacing="15.0" alignment="CENTER">
+        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+            <Label text="Loan Term (Years)"/>
+            <TextField fx:id="loanTermField" text="7" maxWidth="Infinity"/>
+        </VBox>
 
+        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+            <Label text="Interest Rate (%)"/>
+            <TextField fx:id="interestRateField" text="8.0" maxWidth="Infinity"/>
+        </VBox>
+    </HBox>
+
+    <!-- BUTTON -->
     <Button text="Calculate"
             onAction="#onCalculateButtonClick"
             maxWidth="200"/>
 
+    <!-- OUTPUT AREA -->
     <VBox fx:id="outputBox"
-          spacing="10"
-          style="-fx-border-color: lightgray;
-                 -fx-border-radius: 5;
-                 -fx-padding: 10;"
-          maxWidth="400"/>
+          spacing="10.0"
+          alignment="TOP_CENTER"
+          VBox.vgrow="ALWAYS"
+          style="-fx-padding: 10; -fx-border-color: lightgray; -fx-border-radius: 5;">
+    </VBox>
 
 </VBox>
+
